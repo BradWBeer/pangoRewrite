@@ -1,0 +1,127 @@
+(ql:quickload :cl-autowrap/libffi)
+
+(cffi:define-foreign-library :libpango
+  (cffi-features:darwin (:or "libpango-1.0.dylib" "libpango.dylib"))
+  (cffi-features:unix (:or "libpango-1.0.so" "libpango-1.0.so.0"))
+  (cffi-features:windows "libpango.dll"))
+
+(cffi:load-foreign-library :libpango)
+
+
+(cffi:define-foreign-library :libpangocairo
+  (cffi-features:darwin (:or "libpangocairo-1.0.dylib" "libpangocairo.dylib"))
+  (cffi-features:unix (:or "libpangocairo-1.0.so" "libpangocairo-1.0.so.0"))
+  (cffi-features:windows "libpangocairo.dll"))
+
+(cffi:load-foreign-library :libpangocairo)
+
+
+(autowrap:c-include "pango.h" 
+		    :spec-path "pango/"
+		    :exclude-sources (".*.h")
+		    :include-sources (;;"stdio.h"
+				      "glib/glib.h"
+				      "/usr/lib/x86_64-linux-gnu/glib-2.0/include/glibconfig.h"
+				      "glib/gtypes.h"
+				      ;; ;; "glib/galloca.h"
+				      ;; "glib/garray.h"
+				      ;; ;; "glib/gasyncqueue.h"
+				      ;; ;; "glib/gatomic.h"
+				      ;; ;; "glib/gbacktrace.h"
+				      ;; ;; "glib/gbase64.h"
+				      ;; ;; "glib/gbitlock.h"
+				      ;; ;; "glib/gbookmarkfile.h"
+				      ;; "glib/gbytes.h"
+				      ;; "glib/gcharset.h"
+				      ;; ;; "glib/gchecksum.h"
+				      ;; ;; "glib/gconvert.h"
+				      ;; ;; "glib/gdataset.h"
+				      ;; ;; "glib/gdate.h"
+				      ;; ;; "glib/gdatetime.h"
+				      ;; ;; "glib/gdir.h"
+				      ;; ;; "glib/genviron.h"
+				      ;; ;; "glib/gerror.h"
+				      ;; "glib/gfileutils.h"
+				      ;; ;; "glib/ggettext.h"
+				      ;; ;; "glib/ghash.h"
+				      ;; ;; "glib/ghmac.h"
+				      ;; ;; "glib/ghook.h"
+				      ;; ;; "glib/ghostutils.h"
+				      ;; ;; "glib/giochannel.h"
+				      ;; ;; "glib/gkeyfile.h"
+				      "glib/glist.h"
+				      ;; ;; "glib/gmacros.h"
+				      ;; ;; "glib/gmain.h"
+				      ;; ;; "glib/gmappedfile.h"
+				      ;; ;; "glib/gmarkup.h"
+				      ;; ;; "glib/gmem.h"
+				      ;; ;; "glib/gmessages.h"
+				      ;; ;; "glib/gnode.h"
+				      ;; ;; "glib/goption.h"
+				      ;; ;; "glib/gpattern.h"
+				      ;; ;; "glib/gpoll.h"
+				      ;; ;; "glib/gprimes.h"
+				      ;; ;; "glib/gqsort.h"
+				      ;; ;; "glib/gquark.h"
+				      ;; "glib/gqueue.h"
+				      ;; ;; "glib/grand.h"
+				      ;; ;; "glib/gregex.h"
+				      ;; ;; "glib/gscanner.h"
+				      ;; ;; "glib/gsequence.h"
+				      ;; ;; "glib/gshell.h"
+				      ;; ;; "glib/gslice.h"
+				      "glib/gslist.h"
+				      ;; ;; "glib/gspawn.h"
+				      ;; ;; ;;"glib/gstrfuncs.h"
+				      "glib/gstring.h"
+				      ;; ;; "glib/gstringchunk.h"
+				      ;; ;; "glib/gtestutils.h"
+				      ;; ;; "glib/gthread.h"
+				      ;; ;; "glib/gthreadpool.h"
+				      ;; ;; "glib/gtimer.h"
+				      ;; ;; "glib/gtimezone.h"
+				      ;; ;; "glib/gtrashstack.h"
+				      ;; ;; "glib/gtree.h"
+				      "glib/gunicode.h"
+				      ;; ;; "glib/gurifuncs.h"
+				      "glib/gutils.h"
+				      "glib/gvarianttype.h"
+				      "glib/gvariant.h"
+				      "glib/gversion.h"
+				      ;;"glib/gversionmacros.h"
+				      "glib/glib-object.h"
+				      "gobject/gvalue.h"
+				      "gobject/gvaluetypes.h"
+				      ;;"gobject/gtype.h"
+				      ;; "gobject/gobject.h"
+				      
+				      
+				      "pango/pango-attributes.h"
+				      "pango/pango-bidi-type.h"
+				      "pango/pango-break.h"
+				      "pango/pango-context.h"
+				      "pango/pango-coverage.h"
+				      "pango/pango-engine.h"
+				      "pango/pango-enum-types.h"
+				      "pango/pango-features.h"
+				      "pango/pango-font.h"
+				      "pango/pango-fontmap.h"
+				      "pango/pango-fontset.h"
+				      "pango/pango-glyph.h"
+				      "pango/pango-glyph-item.h"
+				      "pango/pango-gravity.h"
+				      "pango/pango-item.h"
+				      "pango/pango-layout.h"
+				      "pango/pango-matrix.h"
+				      "pango/pango-renderer.h"
+				      "pango/pango-script.h"
+				      "pango/pango-tabs.h"
+				      "pango/pango-types.h"
+				      "pango-language.h"
+				      "pango/pango-utils.h")
+		    :sysincludes '("/usr/include/x86_64-linux-gnu" 
+				   "/usr/lib/x86_64-linux-gnu/glib-2.0/include" 
+				   "/usr/include/pango-1.0/pango"
+				   "/usr/include/pango-1.0"
+				   "/usr/include/glib-2.0"))
+
